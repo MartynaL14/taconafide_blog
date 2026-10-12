@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mój Blog — Somy Vibes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* Paleta inspirowana SOMY 0.5 / SOMY 0.25 */
+      --bg-1: #0b0a0c;    /* głęboka czerń z fioletowym podtonem */
+      --bg-2: #22121a;    /* ciemny burgund / winna czerń */
+      --card: rgba(255,255,255,0.03);
+      --muted: #cfc5bf;   /* kremowy, delikatny kontrast */
+      --warm: #d79f18;    /* musztardowy akcent (żółto-złoty) */
+      --neon: #00d1e6;    /* neonowy cyjan / akcent */
+      --rose: #c43b6a;    /* głęboki róż / magenta */
+      --glass-border: rgba(255,255,255,0.06);
+      --shadow: 0 12px 40px rgba(0,0,0,0.6);
+    }
+
+    *{box-sizing:border-box}
+    html{height:100%}
+    body{
+      margin:0;
+      min-height:100%;
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(196,59,106,0.07), transparent 6%),
+                  radial-gradient(1000px 500px at 90% 85%, rgba(0,209,230,0.05), transparent 6%),
+                  linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 100%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      letter-spacing:0.2px;
+      padding-bottom:60px;
+    }
+
+    /* Subtle film grain */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:linear-gradient(transparent 50%, rgba(255,255,255,0.01) 50%);
+      background-size:1px 2px;
+      mix-blend-mode:overlay;
+      opacity:0.6;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:30;
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(11,10,12,0.6), rgba(11,10,12,0.35));
+    }
+
+    .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:18px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:baseline;
+      gap:12px;
+      font-weight:800;
+      color:var(--muted);
+      font-size:1.2rem;
+    }
+
+    .brand .logo{
+      font-family:"Playfair Display", serif;
+      color:var(--warm);
+      font-size:1.5rem;
+      letter-spacing:0.04em;
+    }
+
+    nav.links{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+
+    .links a{
+      color:rgba(207,197,191,0.85);
+      text-decoration:none;
+      font-weight:600;
+      font-size:0.95rem;
+      padding:8px 10px;
+      border-radius:6px;
+    }
+
+    .links a:hover{
+      color:white;
+      background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    }
+
+    .cta{
+      background: linear-gradient(90deg, var(--warm), #f0b43a);
+      color:#0b0a0c;
+      font-weight:800;
+      padding:10px 16px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 8px 20px rgba(215,159,24,0.15);
+    }
+
+    /* HERO */
+    .hero{
+      padding:64px 0 40px;
+    }
+
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:32px;
+      align-items:center;
+    }
+
+    .hero-card{
+      background:var(--card);
+      border-radius:18px;
+      padding:34px;
+      border:1px solid var(--glass-border);
+      box-shadow:var(--shadow);
+    }
+
+    .eyebrow{
+      display:inline-block;
+      font-weight:800;
+      color:var(--neon);
+      background:linear-gradient(90deg, rgba(0,209,230,0.06), rgba(196,59,106,0.03));
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:0.8rem;
+      letter-spacing:0.06em;
+    }
+
+    h1{
+      margin:18px 0 12px;
+      color:#fff;
+      font-family:"Playfair Display", serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      line-height:1.05;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    }
+
+    p.lead{
+      margin:0 0 20px;
+      color:rgba(207,197,191,0.9);
+      max-width:62ch;
+      font-size:1.02rem;
+    }
+
+    .hero-actions{display:flex; gap:14px; flex-wrap:wrap}
+    .btn-primary{
+      background: linear-gradient(90deg, var(--neon), #5be6ff);
+      color:#081016;
+      padding:12px 18px;
+      font-weight:800;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,209,230,0.08);
+    }
+    .btn-ghost{
+      border:1px solid rgba(255,255,255,0.08);
+      color:var(--muted);
+      padding:12px 18px;
+      border-radius:999px;
+      background:transparent;
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    /* Right card */
+    .mini{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .cover{
+      height:220px;
+      border-radius:12px;
+      background: linear-gradient(135deg, rgba(196,59,106,0.85), rgba(15,10,18,0.75));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:4.8rem;
+      color:rgba(255,255,255,0.95);
+      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.45);
+    }
+
+    .mini h3{
+      margin:6px 0 0;
+      font-size:1.05rem;
+      color:var(--muted);
+    }
+    .meta{font-size:0.87rem;color:rgba(207,197,191,0.72);}
+
+    /* TAGS */
+    .tag-list{
+      display:flex;
+      gap:10px;
+      margin:22px 0 0;
+      flex-wrap:wrap;
+    }
+    .tag{
+      background:linear-gradient(90deg, rgba(196,59,106,0.06), rgba(215,159,24,0.03));
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:700;
+      font-size:0.85rem;
+    }
+
+    /* POSTS */
+    .content{padding:34px 0 64px}
+    .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .section-header h2{color:#fff;margin:0;font-size:1.4rem}
+    .posts-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:20px;
+    }
+
+    .post{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      overflow:hidden;
+      transition: transform .22s ease, box-shadow .22s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .post:hover{ transform: translateY(-8px); box-shadow: 0 18px 50px rgba(0,0,0,0.7) }
+
+    .post .image{
+      height:180px;
+      background: linear-gradient(135deg, rgba(0,209,230,0.06), rgba(196,59,106,0.06));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2.4rem;
+      color:var(--muted);
+    }
+
+    .post-body{ padding:16px 18px; }
+    .post-meta{ font-size:0.8rem; color:rgba(207,197,191,0.6); margin-bottom:8px }
+    .post h3{ margin:0 0 10px; color:#fff; font-size:1.05rem; line-height:1.25 }
+    .post p{ margin:0 0 14px; color:rgba(207,197,191,0.85); font-size:0.95rem }
+
+    .read-more{ color:var(--warm); font-weight:800; text-decoration:none; font-size:0.95rem }
+
+    /* Featured */
+    .featured{
+      margin-top:28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:22px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .featured-grid{ display:grid; grid-template-columns: 1fr 420px; gap:18px; align-items:center }
+    .featured-left h2{ color:#fff; margin:0 0 10px; font-size:1.6rem; }
+    .featured-left p{ color:rgba(207,197,191,0.9); margin:0 0 14px }
+
+    .featured-right{
+      background: linear-gradient(135deg, rgba(196,59,106,0.14), rgba(0,209,230,0.06));
+      padding:18px;
+      border-radius:12px;
+      text-align:center;
+      color:#fff;
+      font-weight:800;
+      font-size:1.6rem;
+    }
+
+    /* Newsletter */
+    .newsletter{
+      margin-top:28px;
+      background: linear-gradient(90deg, rgba(11,10,12,0.9), rgba(34,18,26,0.9));
+      padding:22px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    .newsletter .left h3{ margin:0; color:#fff; font-size:1.1rem }
+    .nl-form{ display:flex; gap:10px; align-items:center }
+    .nl-form input{
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:transparent;
+      color:var(--muted);
+      outline:none;
+      min-width:220px;
+    }
+    .nl-form button{ padding:12px 16px; border-radius:999px; border:none; cursor:pointer; background:var(--warm); color:#081016; font-weight:800 }
+
+    footer{
+      margin-top:34px;
+      color:rgba(207,197,191,0.6);
+      text-align:center;
+      font-size:0.9rem;
+      padding:26px 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-inner, .featured-grid { grid-template-columns: 1fr; }
+      .posts-grid{ grid-template-columns: repeat(2, 1fr) }
+      .featured-right{ order: -1 }
+    }
+    @media (max-width: 640px){
+      .posts-grid{ grid-template-columns: 1fr }
+      .nav{ padding:12px 0 }
+      .brand{ font-size:1rem }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">SOMY</div>
+        <div>blog</div>
+      </div>
+
+      <nav class="links">
+        <a href="#">Strona główna</a>
+        <a href="#">Wpisy</a>
+        <a href="#">O mnie</a>
+        <a href="#">Kontakt</a>
+      </nav>
+
+      <button class="cta">Zapisz się</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Nowość • Somy</span>
+          <h1>Głos, tekstury i kolory — piszę o dźwiękach, które zostają</h1>
+          <p class="lead">Blog inspirowany estetyką Somy 0.5 / 0.25 — mroczne tła, neonowe akcenty i ciepłe, analogowe barwy. Znajdziesz tu teksty o muzyce, kulturze i codziennych inspiracjach.</p>
+
+          <div class="hero-actions">
+            <button class="btn-primary">Czytaj najnowszy</button>
+            <button class="btn-ghost">Zobacz wszystkie</button>
+          </div>
+
+          <div class="tag-list" aria-hidden="true">
+            <span class="tag">Muzyka</span>
+            <span class="tag">Kultura</span>
+            <span class="tag">Analizy</span>
+            <span class="tag">Playlista</span>
+          </div>
+        </div>
+
+        <aside class="hero-card mini" aria-label="Wyróżniony wpis">
+          <div class="cover">🎧</div>
+          <div class="meta">Wyróżniony • 6 min</div>
+          <h3>Soma: odcienie i wpływy — co mnie porusza w tm albumie</h3>
+        </aside>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="section-header">
+        <h2>Najnowsze wpisy</h2>
+        <a href="#" class="read-more">Zobacz wszystkie →</a>
+      </div>
+
+      <div class="posts-grid" role="list">
+        <article class="post" role="listitem">
+          <div class="image">🎤</div>
+          <div class="post-body">
+            <div class="post-meta">12 paź 2026 • Muzyka</div>
+            <h3>Somy 0.5 — analiza warstw dźwięku płyty</h3>
+            <p>Przyglądam się produkcji, barwie głosu i pomysłom aranżacyjnym, które tworzą niezwykłą atmosferę tego albumu.</p>
+            <a class="read-more" href="#">Czytaj dalej</a>
+          </div>
+        </article>
+
+        <article class="post">
+          <div class="image">🖤</div>
+          <div class="post-body">
+            <div class="post-meta">5 paź 2026 • Kultura</div>
+            <h3>Jak opakowanie i kolory wpływają na odbiór muzyki?</h3>
+            <p>O roli estetyki wizualnej w budowaniu narracji albumów i wrażenia słuchacza.</p>
+            <a class="read-more" href="#">Czytaj dalej</a>
+          </div>
+        </article>
+
+        <article class="post">
+          <div class="image">🔊</div>
+          <div class="post-body">
+            <div class="post-meta">28 wrz 2026 • Playlisty</div>
+            <h3>Playlista Somy: utwory które przypominają klimat 0.25</h3>
+            <p>Dobór kawałków do wieczornego słuchania — intymne i jednocześnie intensywne brzmienia.</p>
+            <a class="read-more" href="#">Czytaj dalej</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="featured" aria-hidden="false">
+        <div class="featured-grid">
+          <div class="featured-left">
+            <div class="tag">Wyróżniony</div>
+            <h2>Dlaczego Somy ma tak silny wpływ na młodą scenę?</h2>
+            <p>Przeanalizujemy inspiracje, referencje i estetyczne wybory, które wyróżniają ten projekt na tle polskiej sceny.</p>
+            <a class="read-more" href="#">Przeczytaj →</a>
+          </div>
+
+          
+        </div>
+      </div>
+
+      <div class="newsletter" style="margin-top:18px">
+        <div class="left">
+          <h3>Zapisz się na powiadomienia</h3>
+          <div style="color:rgba(207,197,191,0.7);font-size:0.95rem">Nowe teksty, playlisty i recenzje prosto na maila</div>
+        </div>
+
+        <form class="nl-form" onsubmit="event.preventDefault(); alert('Dzięki!');">
+          <input type="email" placeholder="Twój e-mail" aria-label="email" required>
+          <button type="submit">Zapisz</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 — Somy Vibes • Wszelkie prawa zastrzeżone
+    </footer>
+  </main>
+</body>
+</html>
